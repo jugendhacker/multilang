@@ -68,3 +68,14 @@ function __($translate,$lang=null){
 	}
 	return $dictionary[$lang][$translate];
 }
+
+function language_switcher(){
+	//you might add your own styling and remove this line
+	echo '<style>#lang-switcher{background-color:white;position:fixed;right:5px;bottom:5px;}</style>';
+	echo '<div id="lang-switcher">';
+	foreach(array_keys($dictionary) as $lang){
+		$language=$dictionary[$lang]['language'];
+		echo "<a href=\"$_SERVER[SCRIPT_FILENAME]?lang=$lang\">$language</a>";
+	}
+	echo '</div>';
+}
