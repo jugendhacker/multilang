@@ -1,5 +1,11 @@
 <?php
 /*
+the directory in which the dictionaries reside in
+
+standard is 'lang'
+*/
+$dict_dir='lang';
+/*
 language to use by default
 NULL or unset means to use the language provided by the browser
 be careful though: if an unsupported language is supplied by the browser all calls to the translating function will return an empty string or even an error
@@ -18,14 +24,15 @@ $strict=false;
 dictionary_setup($strict);
 
 function dictionary_setup($strict=false){
-	global $dictionary;
+	global $dict_dir;
 	global $use_lang;
+	global $dictionary;
 	$dictionary=array();
 	$template=file('lang'.DIRECTORY_SEPARATOR.'dictionary',FILE_IGNORE_NEW_LINES);
 	$dir=scandir('lang');
 	foreach($dir as $f){
 		if($f=='.'||$f=='..'||$f=='dictionary') continue;
-		$dictionary_file=file('lang'.DIRECTORY_SEPARATOR.$f,FILE_IGNORE_NEW_LINES);
+		$dictionary_file=file($dict_dir.DIRECTORY_SEPARATOR.$f,FILE_IGNORE_NEW_LINES);
 		for($i=0;$i<count($dictionary_file);$i++){
 			$key=$template[$i];
 			$dictionary[$f][$key]=$dictionary_file[$i];
@@ -55,7 +62,8 @@ function dictionary_setup($strict=false){
 }
 
 function language_supported($lang){
-	return file_exists('lang'.DIRECTORY_SEPARATOR.$lang);
+	global $dict_dir;
+	return file_exists($dict_dir.DIRECTORY_SEPARATOR.$lang);
 }
 
 /*
@@ -77,7 +85,14 @@ function language_switcher(){
 	echo '<div id="lang-switcher">';
 	foreach(array_keys($dictionary) as $lang){
 		$language=$dictionary[$lang]['language'];
-		echo '<a href="'.$_SERVER['REQUEST_URI']."?lang=$lang\">$language</a>&nbsp;";
+		echo '<a href="'.$_SERVER['REQUEST_URI'];
+		/*
+		Don't cause errors if REQUEST_URI already contains a query string!
+		If the uri already contains a query string, we just append the attributes with a ampersand.
+		Otherwise we have to add our query with a question mark.
+		*/
+		echo (strpos($_SERVER['REQUEST_URI'],'?'))?'&':'?';
+		echo "lang=$lang\">$language</a>&nbsp;";
 	}
 	echo '</div>';
 }
