@@ -28,8 +28,8 @@ function dictionary_setup($strict=false){
 	global $use_lang;
 	global $dictionary;
 	$dictionary=array();
-	$template=file('lang'.DIRECTORY_SEPARATOR.'dictionary',FILE_IGNORE_NEW_LINES);
-	$dir=scandir('lang');
+	$template=file($dict_dir.DIRECTORY_SEPARATOR.'dictionary',FILE_IGNORE_NEW_LINES);
+	$dir=scandir($dict_dir);
 	foreach($dir as $f){
 		if($f=='.'||$f=='..'||$f=='dictionary') continue;
 		$dictionary_file=file($dict_dir.DIRECTORY_SEPARATOR.$f,FILE_IGNORE_NEW_LINES);
