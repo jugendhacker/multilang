@@ -23,7 +23,7 @@ $strict=false;
 
 dictionary_setup($strict);
 
-function dictionary_setup($strict){
+function dictionary_setup($strict=false){
 	global $dict_dir;
 	global $use_lang;
 	global $dictionary;
@@ -71,7 +71,7 @@ function language_supported($lang){
 /*
 the actual translating function
 */
-function __($translate){
+function __($translate, $lang=null){
 	global $use_lang;
 	global $dictionary;
 	if(empty($lang)){
