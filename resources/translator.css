@@ -1,0 +1,6 @@
+.editable{
+    position: relative;
+}
+.editable .glyphicon{
+    font-size: 20px;
+}

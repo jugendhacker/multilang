@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Translate Tool for Multilang</title>
+    <script src="jquery-3.2.1.js"></script>
+</head>
+<body>
+    <table width="50%" class="table table-bordered table-hover" id="_addFiveTable">
+        <thead>
+            <tr id="tb-head">
+                <th>Key</th>
+                <script type="application/javascript">
+                    $.ajax({
+                        url: "back.php",
+                        data: "langs"
+                    })
+                    .done(function (data) {
+                        var d = $.map(data, function (el) {
+                            return el
+                        });
+                        d.forEach(function (t) {
+                            var h = document.createElement("th");
+                            var h2 = $.map(t, function (el) {
+                                return el
+                            });
+                            h.innerHTML = h2[0];
+                            document.getElementById("tb-head").append(h);
+                        })
+                    })
+                </script>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+        <script type="application/javascript">
+            var keys = null;
+            $.ajax({
+                url: "back.php",
+                data: "keys"
+            })
+                .done(function (data) {
+                    keys = JSON.parse(data);
+                    keys.forEach(function (t) {
+                        var h = document.createElement("tr");
+                        var h1 = document.createElement("td");
+                        h1.innerHTML = t;
+                        h1.setAttribute("contenteditable", "true");
+                        h.appendChild(h1);
+                        for (i = 1; i < keys.length; i++){
+                            var h2 = document.createElement("td");
+                            h2.innerHTML =
+                        }
+                        document.getElementById("tbody").appendChild(h)
+                    })
+                });
+        </script>
+        </tbody>
+    </table>
+</body>
+</html>
