@@ -1,24 +1,87 @@
 <!DOCTYPE html>
-<html>
 <head>
     <meta charset="UTF-8">
     <title>Translate Tool for Multilang</title>
-    <link rel="stylesheet" type="text/css" href="resources/translator.css"/>
-    <script type="application/javascript" src="resources/translator.js"></script>
+    <script src="resources/jquery.js"></script>
+    <script src="resources/jquery.tabletojson.js"></script>
+	<link rel="stylesheet" type="text/css" href="resources/translator.css">
 </head>
 <body>
     <table width="100%" class="table table-bordered table-hover" id="table">
         <thead>
             <tr id="tb-head">
+                <th>Key</th>
+                <script type="application/javascript">
+                    $.ajax({
+                        url: "back.php",
+                        data: "langs"
+                    })
+                    .done(function (data) {
+                        var d = $.map(data, function (el) {
+                            return el
+                        });
+                        d.forEach(function (t) {
+                            var h = document.createElement("th");
+                            var h2 = $.map(t, function (el) {
+                                return el
+                            });
+                            h.innerHTML = h2[0];
+                            document.getElementById("tb-head").append(h);
+                        })
+                    })
+                </script>
             </tr>
         </thead>
         <tbody id="tbody">
+        <script type="application/javascript">
+            var keys = null;
+            $.ajax({
+                url: "back.php",
+                data: "keys"
+            })
+                .done(function (data) {
+                    data.forEach(function (t) {
+                        var h = document.createElement("tr");
+                        h.setAttribute("id", t);
+                        var h1 = document.createElement("td");
+                        h1.innerHTML = t;
+                        h1.setAttribute("contenteditable", "true");
+                        h.appendChild(h1);
+                        document.getElementById("tbody").appendChild(h)
+                    });
+                    addContent(data);
+                });
+            function addContent(t) {
+                $.ajax({
+                    url: "back.php",
+                    data: "langs"
+                })
+                    .done(function (data) {
+                        $.each(data, function (i, language) {
+                            $.each(language, function (j, key) {
+                                var h  = document.createElement("td");
+                                h.innerHTML = language[j];
+                                h.setAttribute("contenteditable", "true");
+                                document.getElementById(j).appendChild(h);
+                            })
+                        });
+                    })
+            }
+            function save() {
+                var h = $('#table').tableToJSON();
+
+                console.log(h);
+                $.ajax({
+                    url: "back.php",
+                    type: "POST",
+                    data: JSON.stringify(h),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json"
+                })
+            }
+        </script>
         </tbody>
     </table>
-    <button type="button" onclick="saveChanges();">save</button>
-    <button type="button" onclick="setup();">reset</button>
-    <script>
-    setup();
-    </script>
+    <input type="button" value="Save" onclick="save()">
 </body>
 </html>
