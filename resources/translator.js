@@ -90,7 +90,6 @@ function saveChanges(){
 	req.send('update='+JSON.stringify(changes));
 	var el=document.getElementsByTagName('button');
 	for(var e of el){
-		console.log(e);
 		e.disabled=true;
 	}
 }
