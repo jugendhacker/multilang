@@ -3,9 +3,10 @@
     <meta charset="UTF-8">
     <title>Translate Tool for Multilang</title>
     <script src="jquery-3.2.1.js"></script>
+    <script src="jquery.tabletojson.js"></script>
 </head>
 <body>
-    <table width="100%" class="table table-bordered table-hover" id="_addFiveTable">
+    <table width="100%" class="table table-bordered table-hover" id="table">
         <thead>
             <tr id="tb-head">
                 <th>Key</th>
@@ -56,8 +57,6 @@
                     data: "langs"
                 })
                     .done(function (data) {
-                        console.log(data);
-                        console.log(data.de.but);
                         $.each(data, function (i, language) {
                             $.each(language, function (j, key) {
                                 var h  = document.createElement("td");
@@ -65,11 +64,24 @@
                                 h.setAttribute("contenteditable", "true");
                                 document.getElementById(j).appendChild(h);
                             })
-                        })
+                        });
                     })
+            }
+            function save() {
+                var h = $('#table').tableToJSON();
+
+                console.log(h);
+                $.ajax({
+                    url: "back.php",
+                    type: "POST",
+                    data: JSON.stringify(h),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json"
+                })
             }
         </script>
         </tbody>
     </table>
+    <input type="button" value="Save" onclick="save()">
 </body>
 </html>
