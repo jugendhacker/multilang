@@ -5,7 +5,7 @@
     <script src="jquery-3.2.1.js"></script>
 </head>
 <body>
-    <table width="50%" class="table table-bordered table-hover" id="_addFiveTable">
+    <table width="100%" class="table table-bordered table-hover" id="_addFiveTable">
         <thead>
             <tr id="tb-head">
                 <th>Key</th>
@@ -38,20 +38,36 @@
                 data: "keys"
             })
                 .done(function (data) {
-                    keys = JSON.parse(data);
+                    keys = data;
                     keys.forEach(function (t) {
                         var h = document.createElement("tr");
+                        h.setAttribute("id", t);
                         var h1 = document.createElement("td");
                         h1.innerHTML = t;
                         h1.setAttribute("contenteditable", "true");
                         h.appendChild(h1);
-                        for (i = 1; i < keys.length; i++){
-                            var h2 = document.createElement("td");
-                            h2.innerHTML =
-                        }
                         document.getElementById("tbody").appendChild(h)
-                    })
+                    });
+                    addContent(data);
                 });
+            function addContent(t) {
+                $.ajax({
+                    url: "back.php",
+                    data: "langs"
+                })
+                    .done(function (data) {
+                        console.log(data);
+                        console.log(data.de.but);
+                        $.each(data, function (i, language) {
+                            $.each(language, function (j, key) {
+                                var h  = document.createElement("td");
+                                h.innerHTML = language[j];
+                                h.setAttribute("contenteditable", "true");
+                                document.getElementById(j).appendChild(h);
+                            })
+                        })
+                    })
+            }
         </script>
         </tbody>
     </table>
