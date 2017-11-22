@@ -17,15 +17,12 @@
                         data: "langs"
                     })
                     .done(function (data) {
-                        var d = $.map(data, function (el) {
-                            return el
+                        var d = $.map(data, function (el,key) {
+                            return key;
                         });
                         d.forEach(function (t) {
                             var h = document.createElement("th");
-                            var h2 = $.map(t, function (el) {
-                                return el
-                            });
-                            h.innerHTML = h2[0];
+                            h.innerHTML = t;
                             document.getElementById("tb-head").append(h);
                         })
                     })
