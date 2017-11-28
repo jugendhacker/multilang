@@ -40,10 +40,13 @@ function dictionary_setup($strict){
 	}
 	if(!$strict){
 		if(isset($_GET['lang'])){
-			$lang=strtolower(substr($_GET['lang'],0,2));
-			if(language_supported($lang)){
-				$use_lang=$lang;
-			}
+		    $lang=$_GET['lang'];
+            while(strlen($lang)>2&&!language_supported($lang)){
+                $lang=substr($lang,0,strrpos($lang,'-'));
+            }
+            if(language_supported($lang)) {
+                $use_lang = $lang;
+            }
 		}elseif(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])){
 			//selects the users preferred language (from browser settings)
             $langs=split(";",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
