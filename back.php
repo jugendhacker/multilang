@@ -17,6 +17,7 @@ if (isset($_GET['langs'])){
 }
 function save($data){
 	global $dictionary;
+	global $dict_dir;
 	$data=json_decode($data);
 	$dictionary=array();
 	for ($i=0; $i < count($data); $i++) {
@@ -29,5 +30,12 @@ function save($data){
 			}
 		}
 	}
+	$keys=array_keys($dictionary[array_keys($dictionary)[0]]);
+    $path=$dict_dir.DIRECTORY_SEPARATOR.'dictionary';
+    file_put_contents($path,implode("\n",$keys));
+	foreach ($dictionary as $lang => $value){
+	    $path=$dict_dir.DIRECTORY_SEPARATOR.$lang;
+	    file_put_contents($path,implode("\n",$value));
+    }
 	var_dump($dictionary);
 }
