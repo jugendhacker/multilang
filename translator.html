@@ -77,7 +77,19 @@
                 })
             }
 			function newLanguage(){
-			
+				var langName=prompt('Enter language key for new language.');
+				if(langName==null||langName==""){
+					// aborted
+					return;
+				}
+				$('#tb-head').each(function(){
+					var trow = $(this);
+					trow.append('<th>'+langName+'</th>');
+				});
+				$('tbody').find('tr').each(function(){
+					var trow = $(this);
+					trow.append('<td contentedible="true"></td>');
+				});
 			}
 			function newPhrase(){
 			
